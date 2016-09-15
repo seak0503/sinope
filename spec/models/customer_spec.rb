@@ -21,9 +21,9 @@ describe Customer do
     end
 
     example "#{column_name} に含まれる半角カタカナは全角カタカナに変換して受け入れる" do
-      customer[column_name] = 'ｱｲｳ'
+      customer[column_name] = 'ｱｰﾝ'
       expect(customer).to be_valid
-      expect(customer[column_name]).to eq('アイウ')
+      expect(customer[column_name]).to eq('アーン')
     end
   end
 
@@ -44,7 +44,7 @@ describe Customer do
 
   %w{family_name_kana given_name_kana}.each do |column_name|
     example "#{column_name} はカタカナのみ含む" do
-      customer[column_name] = 'アーメン'
+      customer[column_name] = 'アーン'
       expect(customer).to be_valid
     end
 
@@ -57,9 +57,9 @@ describe Customer do
     end
 
     example "#{column_name} に含まれるひらがなはカタカナに変換して受け入れる" do
-      customer[column_name] = 'あいう'
+      customer[column_name] = 'あーん'
       expect(customer).to be_valid
-      expect(customer[column_name]).to eq('アイウ')
+      expect(customer[column_name]).to eq('アーン')
     end
   end
 end
