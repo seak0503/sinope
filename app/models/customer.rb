@@ -15,4 +15,7 @@ class Customer < ActiveRecord::Base
     format: { with: /\A[\p{Han}\p{Hiragana}\p{Katakana}\u{30fc}]+\z/, allow_blank: true }
   validates :family_name_kana, :given_name_kana,
     format: { with: /\A[\p{Katakana}\u{30fc}]+\z/, allow_blank: true }
+
+  def authenticate
+  end
 end

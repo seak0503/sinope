@@ -1,7 +1,14 @@
 require "rails_helper"
 
 feature 'ログイン' do
+  before do
+    def Customer.authenticate
+    end
+  end
+
   scenario 'ユーザー認証成功' do
+    #Customer.stub(:authenticate).and_return(FactoryGirl.create(:customer))
+    allow(Customer).to receive(:authenticate).and_return(FactoryGirl.create(:customer))
     visit root_path
     within('form#new_session') do
       fill_in "username", with: "taro"
@@ -12,6 +19,8 @@ feature 'ログイン' do
   end
 
   scenario 'ユーザー認証失敗' do
+    #Customer.stub(:authenticate)
+    allow(Customer).to receive(:authenticate)
     visit root_path
     within("form#new_session") do
       fill_in "username", with: "taro"
