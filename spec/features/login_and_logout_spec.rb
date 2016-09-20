@@ -1,10 +1,6 @@
 require "rails_helper"
 
 feature 'ログイン' do
-  before do
-    def Customer.authenticate
-    end
-  end
 
   scenario 'ユーザー認証成功' do
     #Customer.stub(:authenticate).and_return(FactoryGirl.create(:customer))

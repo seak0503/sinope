@@ -99,7 +99,7 @@ rspec ./spec/features/login_and_logout_spec.rb:16 # ログイン ユーザー認
 
 原因としては存在しないメソッドはスタブできないようになった為のようだ。
 
-そのため、下記のように空のメソッドを定義する必要があります。
+そのため、下記のように空のメソッドを定義する必要がある。
 
 * app/models/customer.rb
 
@@ -110,8 +110,7 @@ class Customer < ActiveRecord::Base
 
 〜略〜
 
-  def authenticate
-
+  def self.authenticate(username, password)
   end
 end
 ```
