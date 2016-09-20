@@ -1,6 +1,7 @@
 require 'nkf'
 
 class Customer < ActiveRecord::Base
+  attr_accessor :password
 
   before_validation do
     self.family_name = NKF.nkf('-w', family_name) if family_name

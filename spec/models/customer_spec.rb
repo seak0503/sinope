@@ -66,6 +66,11 @@ describe Customer do
   end
 
   context '.authenticate' do
-    example
+    let(:customer) { create(:customer, username: 'taro', password: 'correct_password') }
+
+    example "ユーザー名とパスワードに該当するCustomerオブジェクトを返す" do
+      result = Customer.authenticate(customer.username, 'correct_password')
+      expect(result).to eq(customer)
+    end
   end
 end
