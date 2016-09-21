@@ -17,6 +17,9 @@ class Customer < ActiveRecord::Base
   validates :family_name_kana, :given_name_kana,
     format: { with: /\A[\p{Katakana}\u{30fc}]+\z/, allow_blank: true }
 
-  def self.authenticate(username, password)
+  class << self
+    def authenticate(username, password)
+      find_by(username: username)
+    end
   end
 end
