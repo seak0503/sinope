@@ -72,5 +72,32 @@ describe Customer do
       result = Customer.authenticate(customer.username, 'correct_password')
       expect(result).to eq(customer)
     end
+
+    example "パスワードが一致しない場合はnilを返す" do
+      result = Customer.authenticate(customer.username, 'wrong_password')
+      expect(result).to be_nil
+    end
+
+    example "該当するユーザー名が存在しない場合はnilを返す" do
+      result = Customer.authenticate('hanako', 'any_string')
+      expect(result).to be_nil
+    end
+  end
+
+  context 'password' do
+    let(:customer) { build(:customer, username: 'taro') }
+
+    example "生成されたpassword_digestは60文字" do
+      customer.password = 'any_string'
+      customer.save!
+      expect(customer.password_digest).not_to be_nil
+      expect(customer.password_digest.size).to eq(60)
+    end
+
+    example "空文字を与えるとpassword_digestはnil" do
+      customer.password = ''
+      customer.save!
+      expect(customer.password_digest).to be_nil
+    end
   end
 end

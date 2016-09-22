@@ -1,4 +1,5 @@
 require 'nkf'
+require 'bcrypt'
 
 class Customer < ActiveRecord::Base
   attr_accessor :password
@@ -17,9 +18,18 @@ class Customer < ActiveRecord::Base
   validates :family_name_kana, :given_name_kana,
     format: { with: /\A[\p{Katakana}\u{30fc}]+\z/, allow_blank: true }
 
+  before_save do
+    self.password_digest = BCrypt::Password.create(password) if password.present?
+  end
+
   class << self
     def authenticate(username, password)
-      find_by(username: username)
+      customer = find_by(username: username)
+      if customer && BCrypt::Password.new(customer.password_digest) == password
+        customer
+      else
+        nil
+      end
     end
   end
 end
