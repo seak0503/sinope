@@ -82,6 +82,12 @@ describe Customer do
       result = Customer.authenticate('hanako', 'any_string')
       expect(result).to be_nil
     end
+
+    example "パスワード未設定のユーザーを拒絶する" do
+      customer.update_column(:password_digest, nil)
+      result = Customer.authenticate(customer.username, '')
+      expect(result).to be_nil
+    end
   end
 
   context 'password' do
