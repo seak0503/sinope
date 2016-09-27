@@ -22,6 +22,9 @@ class Customer < ActiveRecord::Base
     self.password_digest = BCrypt::Password.create(password) if password.present?
   end
 
+  def points
+  end
+
   class << self
     def authenticate(username, password)
       customer = find_by(username: username)

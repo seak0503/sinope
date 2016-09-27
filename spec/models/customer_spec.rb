@@ -88,6 +88,16 @@ describe Customer do
       result = Customer.authenticate(customer.username, '')
       expect(result).to be_nil
     end
+
+    example "ログインに成功すると、ユーザーの保有ポイントが1増える" do
+      pending 'Customer#pointsが未実装'
+      #customer.stub(:points).and_return(0)
+      #上記スタブメソッドはrspec3では利用できないため、下記のように書き換える
+      allow(customer).to receive(:points).and_return(0)
+      expect {
+        Customer.authenticate(customer.username, 'correct_password')
+      }.to change { customer.points }.by(1)
+    end
   end
 
   context 'password' do
