@@ -114,3 +114,30 @@ class Customer < ActiveRecord::Base
   end
 end
 ```
+
+
+### [ポイントシステム(1) -- 数値の変化をテストする](https://www.oiax.jp/rails/rspec_capybara_primer/reward_system1.html)
+
+**ユーザー認証のテスト（3） -- スタブの活用** の補足で説明したとおり、スタブの実装を `customer.stub(:points).and_return(0)` で定義されているところは、rspec3の環境だと
+エラーになる。
+
+そのため下記のように修正する
+
+* **spec/models/customer_spec.rb**
+
+スタブメソッドを書き換え
+
+```
+- customer.stub(:points).and_return(0)
+
++ allow(customer).to receive(:points).and_return(0)
+```
+
+* **app/models/customer.rb**
+
+ダミーのインスタンスメソッド追加
+
+```
+def points
+end
+```

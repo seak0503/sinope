@@ -4,6 +4,9 @@ feature 'ログイン' do
   before { create(:customer, username: 'taro', password: 'correct_password') }
 
   scenario 'ユーザー認証成功' do
+    #Customer.stub(:authenticate).and_return(FactoryGirl.create(:customer))
+    #上記スタブメソッドはrspec3では使えないため、下記のようにする
+    #allow(Customer).to receive(:authenticate).and_return(create(:customer))
     visit root_path
     within('form#new_session') do
       fill_in "username", with: "taro"
@@ -14,6 +17,9 @@ feature 'ログイン' do
   end
 
   scenario 'ユーザー認証失敗' do
+    #Customer.stub(:authenticate)
+    #上記スタブメソッドはrspec3では使えないため、下記のようにする
+    #allow(Customer).to receive(:authenticate)
     visit root_path
     within("form#new_session") do
       fill_in "username", with: "taro"
