@@ -90,10 +90,10 @@ describe Customer do
     end
 
     example "ログインに成功すると、ユーザーの保有ポイントが1増える" do
-      pending 'Customer#pointsが未実装'
+      #pending 'Customer#pointsが未実装'
       #customer.stub(:points).and_return(0)
       #上記スタブメソッドはrspec3では利用できないため、下記のように書き換える
-      allow(customer).to receive(:points).and_return(0)
+      #allow(customer).to receive(:points).and_return(0)
       expect {
         Customer.authenticate(customer.username, 'correct_password')
       }.to change { customer.points }.by(1)
@@ -114,6 +114,18 @@ describe Customer do
       customer.password = ''
       customer.save!
       expect(customer.password_digest).to be_nil
+    end
+  end
+
+  context '#points' do
+    let(:customer) { create(:customer, username: 'taro') }
+
+    example "関連付けられたRewardのpointsを合計して返す" do
+      customer.rewards.create(points: 1)
+      customer.rewards.create(points: 5)
+      customer.rewards.create(points: -2)
+
+      expect(customer.points).to eq(4)
     end
   end
 end
