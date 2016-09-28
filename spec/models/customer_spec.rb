@@ -98,6 +98,28 @@ describe Customer do
         Customer.authenticate(customer.username, 'correct_password')
       }.to change { customer.points }.by(1)
     end
+
+    example "日付変更時刻をまたいで2回ログインすると、ユーザーの保有ポイントが2増える" do
+      Time.zone = 'Tokyo'
+      date_boundary = Time.zone.local(2013, 1, 1, 5, 0, 0)
+      expect {
+        Timecop.freeze(date_boundary.advance(seconds: -1))
+        Customer.authenticate(customer.username, 'correct_password')
+        Timecop.freeze(date_boundary)
+        Customer.authenticate(customer.username, 'correct_password')
+      }.to change { customer.points }.by(2)
+    end
+
+    example "日付変更時刻をまたがずに2回ログインしても、ユーザーの保有ポイントは1しか増えない" do
+      Time.zone = 'Tokyo'
+      date_boundary = Time.zone.local(2013, 1, 1, 5, 0, 0)
+      expect {
+        Timecop.freeze(date_boundary)
+        Customer.authenticate(customer.username, 'correct_password')
+        Timecop.freeze(date_boundary.advance(hours: 24, seconds: -1))
+        Customer.authenticate(customer.username, 'correct_password')
+      }.to change { customer.points }.by(1)
+    end
   end
 
   context 'password' do

@@ -28,4 +28,5 @@ group :test do
   gem "launchy", "~> 2.4.2"
   gem "selenium-webdriver"
   gem 'shoulda-matchers', '~> 2.6.2'
+  gem 'timecop'
 end
