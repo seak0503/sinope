@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature RewardManager do
+describe RewardManager do
   context '#grant_login_points' do
     let(:customer) { create(:customer) }
 

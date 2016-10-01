@@ -27,16 +27,4 @@ class Customer < ActiveRecord::Base
   def points
     rewards.sum(:points)
   end
-
-  class << self
-    def authenticate(username, password)
-      customer = find_by(username: username)
-      if customer.try(:password_digest) && BCrypt::Password.new(customer.password_digest) == password
-        RewardManager.new(customer).grant_login_points
-        customer
-      else
-        nil
-      end
-    end
-  end
 end
