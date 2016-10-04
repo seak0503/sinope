@@ -16,9 +16,11 @@ class RewardManager
       time1 = now.tomorrow.midnight.advance(hours: 5)
     end
 
-    unless customer.rewards.where(created_at: time0...time1).exists?
-      customer.rewards.create(points: 1)
-      customer.rewards.create(points: 2) if time0.wday == 6
+    ActiveRecord::Base.transaction do
+      unless customer.rewards.where(created_at: time0...time1).exists?
+        customer.rewards.create(points: 1)
+        customer.rewards.create(points: 2) if time0.wday == 6
+      end
     end
   end
 end
